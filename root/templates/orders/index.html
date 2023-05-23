@@ -1,0 +1,75 @@
+{% extends '_layouts/base.html' %}
+
+{% block content %}
+{% load static %}
+		<div class="section page-content">
+			<div class="container">
+				<div class="row">
+					<!-- /////////////////////////////////////////////////// -->
+					<div style="text-align: center">
+						<table id="orders-table" class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                  <th>ID
+                                  <th>Замовлення</th>
+                                  <th>Товар</th>
+                                  <th>Ціна</th>
+                                  <th>Дата</th>
+                                  <th>Кількість</th>
+                                  <th>Вибір</th>
+                                  <th>Управління</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in user_orders %}
+                                <tr>
+                                    <td class="id-cell">{{order.id }}</td>
+                                    <td>{{order.code }}</td>
+                                    <td>{{order.product }}</td>
+                                    <td class="price-cell">{{order.product.price }}</td>
+                                    <td>{{order.date }}</td>
+                                    <td class="count-cell">
+                                        <input type="number" class="count" min="1" value="{{order.count}}">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="check" value="yes" checked>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" value="{{ order.id }}">
+                                        <button class="btn btn-sm btn-danger del-btn">Delete</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div>
+                            <h5>
+                                Загальна сумма до сплати: &nbsp;
+                                <span id="total" style="color:red">0.00 грн</span>
+                            </h5>
+                        </div>
+                        <P>
+                            <a id="bill-btn" href="/order/bill/1,2,3" class="btn btn-success">
+                                Перейти до замовлення
+                            </a>
+                        </P>
+					</div>
+					<!-- /////////////////////////////////////////////////// -->
+				</div>
+			</div>
+		</div>
+        <style>
+            .count {
+                width: 50px;
+                text-align: center;
+                color: green;
+            }
+            input[type="number"]:not([step="any"])::-webkit-inner-spin-button,
+            input[type="number"]:not([step="any"])::-webkit-outer-spin-button {
+                opacity: 1;
+            }
+        </style>
+        <script src="{% static 'js/calc_order.js' %}"></script>
+
+{% endblock content %}
